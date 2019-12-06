@@ -8,6 +8,7 @@
 //
 
 #include <stdio.h>
+#include "homework-1.h"
 
 int GCD(int x, int y) {
     
