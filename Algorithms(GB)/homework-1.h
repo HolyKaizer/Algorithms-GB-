@@ -77,17 +77,17 @@ void swap_integers(int *x, int *y) {
 //    Написать программу нахождения корней заданного квадратного уравнения.
 void calculateScuareEquality(int a, int b, int c, float x1, float x2) {
     
-    double desc = 4 * (double)a * (double)c - (double)b * (double)b;
+    double desc = (a << 2) * (double)c - (double)b * (double)b;
     
     if (desc < 0)
-        printf("Уравнение не умеет решений!\n");
+        printf("Уравнение не имеет решений!\n");
     else if (desc == 0) {
-        x1 = -1 * (float)b / (2 * (float)a) ;
+        x1 = -1 * (float)b / (a << 1) ;
         x2 = x1;
         printf("Уравнение имеет одно решение %.2f\n", x1);
     } else {
-        x1 = (-1 * (float)b + sqrt(desc)) / (2 * (float)a) ;
-        x2 =  (-1 * (float)b - sqrt(desc)) / (2 * (float)a) ;
+        x1 = (-1 * (float)b + sqrt(desc)) / (a << 1) ;
+        x2 =  (-1 * (float)b - sqrt(desc)) / (a << 1) ;
         printf("Уравнение имеет два решения - x1 = %.2f, x2 = %.2f\n", x1, x2);
     }
     
@@ -116,13 +116,12 @@ void age_output() {
     int age;
     scanf("%d", &age);
     
-    if (age % 10 == 1)
-        printf("Вы ввели %d год", age);
-    else if (age % 10 > 1 && age % 10 < 5 )
-        printf("Вы ввели %d года", age);
+    if (age % 10 >= 5 || age % 10 == 0 || (age % 100 > 9 && age % 100 < 21))
+        printf("Вы ввели %d лет\n", age);
+    else if (age % 10 == 1)
+        printf("Вы ввели %d год\n", age);
     else
-    printf("Вы ввели %d лет\n", age);
-    
+        printf("Вы ввели %d года\n", age);
 }
 
 //Задание номер 7.
@@ -147,18 +146,13 @@ void is_same_color() {
     unsigned short y2;
     scanf("%hd", &y2);
     
-    if ((x1 % 2 == 1 && y1 % 2 == 1) || (x1 % 2 == 0 && y1 % 2 == 0)) // first chess black (equal parity)
-        if ((x2 % 2 == 1 && y2 % 2 == 1) || (x2 % 2 == 0 && y2 % 2 == 0)) {
-            printf("Шахматы находятся на одинаковом цвете!\n");
-        } else {
-            printf("Шахматы находятся на разных цветах!\n");
-        }
-    else                                                            // first chess white
-        if ((x2 % 2 == 1 && y2 % 2 == 1) || (x2 % 2 == 0 && y2 % 2 == 0)) {
-            printf("Шахматы находятся на разных цветах!\n");
-        } else {
-            printf("Шахматы находятся на одинаковом цвете!\n");
-        }
+    
+    if ((x1 + y1) % 2 == (x2 + y2) % 2) {
+        printf("Шахматы находятся на одинаковом цвете!\n");
+    } else {
+        printf("Шахматы находятся на разных цветах!\n");
+    }
+
 }
 
 //Задание номер 8.
@@ -256,7 +250,6 @@ void eleven_task() {
             count++;
         }
     }
-    
     
     printf("Среднее поло-ых чисел кончающихся на 8 \n");
     printf("Равно %.2f\n\n", (float)sum/count);
