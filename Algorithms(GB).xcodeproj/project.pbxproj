@@ -26,6 +26,7 @@
 		BB15BD5E2395B81800D7B3C6 /* Algorithms(GB) */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Algorithms(GB)"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB15BD612395B81800D7B3C6 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		BB15BD682395B8DD00D7B3C6 /* homework-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "homework-1.h"; sourceTree = "<group>"; };
+		BBF67A6C239EF052004F5E99 /* homework-2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "homework-2.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +61,7 @@
 			children = (
 				BB15BD612395B81800D7B3C6 /* main.c */,
 				BB15BD682395B8DD00D7B3C6 /* homework-1.h */,
+				BBF67A6C239EF052004F5E99 /* homework-2.h */,
 			);
 			path = "Algorithms(GB)";
 			sourceTree = "<group>";

@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include "homework-1.h"
+#include "homework-2.h"
 
 int GCD(int x, int y) {
     
@@ -133,8 +134,11 @@ void hanoi(int numbersOfRing, int fromColumn, int toColumn, int tempColumn) {
 }
 
 int main(int argc, const char * argv[]) {
-    //Вставить любую задачу из homework-1
-    hanoi(3, 1, 2, 3);
-    printf("\n");
+    //Задача номер 1
+//    printf("Число 15 в двоичной системе равно ");
+//    from_two_to_ten(15);
+//    printf("\n");
     
+    //Задача номер 2
+//    printf("5 в степени 3 равно  - %d\n", powRec(5, 3));
 }
