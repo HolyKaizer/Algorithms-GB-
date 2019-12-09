@@ -141,4 +141,10 @@ int main(int argc, const char * argv[]) {
     
     //Задача номер 2
 //    printf("5 в степени 3 равно  - %d\n", powRec(5, 3));
+    
+    //Задание номер 3.
+//    int count = 0;
+//    calc(3, 20, &count);
+//    printf("Варианты попадания из 20 в 3 равно - %d\n", count);
+    
 }

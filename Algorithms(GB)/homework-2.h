@@ -44,4 +44,22 @@ int powRec(int base, int exp) {
 
 //Задание номер 2.5 и 3 решил на бумаге, приложу в Pull Request-e
 
+//Задание номер 3
+
+void calc(int to, int from, int *count) {
+    
+    if (from < to)
+        return;
+    else if (from == to){
+        *count = *count + 1;
+        return;
+    }
+    
+    if(from % 2 == 1)
+        calc(to, from - 1, count);
+    else {
+        calc(to, from / 2, count);
+        calc(to, from - 1, count);
+    }
+}
 #endif /* homework_2_h */
