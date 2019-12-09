@@ -91,6 +91,50 @@ int Power_Fast(int base, int sign) {
     return result;
 }
 
+//Lesson 2
+void cycle(int a, int b) {
+    while (a < b) {
+        printf("%d ", a);
+        a++;
+    }
+    printf("%d ",a);
+}
+
+void loop(int a, int b) {
+    printf("%d ", a);
+    a++;
+    if (a < b) {
+        loop(a, b);
+    }
+    printf(" r%d",a);
+}
+
+int Fc(int n) {
+    int result = 1;
+    while (n > 0) {
+        result *= n--;
+    }
+    return result;
+}
+
+int FcRec(int n) {
+    if (n < 2)
+        return 1;
+    else
+        return n * FcRec(n - 1);
+}
+
+void hanoi(int numbersOfRing, int fromColumn, int toColumn, int tempColumn) {
+    if (numbersOfRing != 0) {
+        hanoi(numbersOfRing - 1, fromColumn, tempColumn, toColumn);
+        printf("%d -> %d\n", fromColumn, toColumn);
+        hanoi(numbersOfRing - 1, tempColumn, toColumn, fromColumn);
+    }
+}
+
 int main(int argc, const char * argv[]) {
     //Вставить любую задачу из homework-1
+    hanoi(3, 1, 2, 3);
+    printf("\n");
+    
 }
