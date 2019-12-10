@@ -68,6 +68,9 @@ void swap_integers_temp(int *x, int *y) {
 }
 
 void swap_integers(int *x, int *y) {
+    if (*x == *y) {
+        return;
+    }
     *x ^= *y;
     *y ^= *x;
     *x ^= *y;

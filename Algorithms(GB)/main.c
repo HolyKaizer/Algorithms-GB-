@@ -133,14 +133,84 @@ void hanoi(int numbersOfRing, int fromColumn, int toColumn, int tempColumn) {
     }
 }
 
+/*--------------------------------------Lesson 3----------------------------------------*/
 
+void printArray(int *a, int len) {
+    int i;
+    for (i = 0; i < len; i++) {
+        printf("[%d] ", a[i]);
+    }
+    printf("\n");
+}
+
+
+void fillArray(int * a, int len) {
+    int i;
+    for (i = 0; i < len; i++) {
+        a[i] = rand() % 100;
+    }
+}
+
+
+
+int lenearSearch(int *a, int len, int value) {
+    int i = 0;
+    while (i < len && a[i] != value) i++;
+    return (i == len) ? -1 : i;
+}
+
+
+void bubbleSort(int *a, int len) {
+    int i;
+    int j;
+    for (i = 0; i < len; i++) {
+        for (j = 0; j < len - 1; j++) {
+            if (a[j] > a[j+1]) {
+                swap_integers(&a[j], &a[j+1]);
+            }
+        }
+    }
+}
+
+
+void pickSort(int* a, int len) {
+    int i;
+    int j;
+    
+   for (i = 0; i < len; i++) {
+       int flag = i;
+       for (j = i + 1; j < len; j++) {
+           if (a[j] < a[flag]) {
+               flag = j;
+           }
+        swap_integers(&a[i], &a[flag]);
+       }
+   }
+}
+
+
+int binarySearch(int *a, int len, int value) {
+    int left = 0;
+    int right = len - 1;
+    int middle = (right + left) / 2;
+    
+    while (left < right && a[middle] != value) {
+        if (a[middle] < value)
+            left = middle + 1;
+        else
+            right = middle;
+        middle = (right + left) / 2;
+    }
+    
+    return(a[middle] == value ? middle : -1);
+}
 
 int main(int argc, const char * argv[]) {
 //    Задача номер 1
-    char binary[64] = "b_";
-    from_two_to_ten(15, binary);
-    printf("Число 15 в двоичной системе равно %s", binary);
-    printf("\n");
+//    char binary[64] = "b_";
+//    from_two_to_ten(15, binary);
+//    printf("Число 15 в двоичной системе равно %s", binary);
+//    printf("\n");
     
     //Задача номер 2
 //    printf("5 в степени 3 равно  - %d\n", powRec(5, 3));
@@ -149,5 +219,16 @@ int main(int argc, const char * argv[]) {
 //    int count = 0;
 //    calc(3, 20, &count);
 //    printf("Варианты попадания из 20 в 3 равно - %d\n", count);
+    const int SIZE = 10;
+    int array[SIZE];
+    fillArray(array, SIZE);
+    printArray(array, SIZE);
     
+    printf("Linear search: %d \n", lenearSearch(array, SIZE, 23));
+    
+    pickSort(array, SIZE);
+    printArray(array, SIZE);
+    
+    printf("Binary search: %d \n", binarySearch(array, SIZE, 12));
+    return 0;
 }
