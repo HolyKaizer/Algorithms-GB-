@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "homework-1.h"
 #include "homework-2.h"
+#include "homework-3.h"
 
 int GCD(int x, int y) {
     
@@ -92,7 +93,9 @@ int Power_Fast(int base, int sign) {
     return result;
 }
 
-//Lesson 2
+
+/*--------------------------------------Lesson 2----------------------------------------*/
+
 void cycle(int a, int b) {
     while (a < b) {
         printf("%d ", a);
@@ -230,5 +233,30 @@ int main(int argc, const char * argv[]) {
     printArray(array, SIZE);
     
     printf("Binary search: %d \n", binarySearch(array, SIZE, 12));
+    
+    /*------------------------Домашнеее задание номер 3. К уроку 4-----------------------------*/
+        
+    //Задание номер 1.
+    //    bubbleSortOptimized(array, SIZE);
+    //    printArray(array, SIZE);
+
+    //Задание номер 2.
+    //    printf("Алгоритм упрощенной сортировки отсортировал массив за %d итераций\n", bubbleSortOptimizedCount(array, SIZE));
+    //    printf("Получвшийся массив - ");
+    //    printArray(array, SIZE);
+    
+    //Задание номер 3.
+    //    shakerSort(array, SIZE);
+    //    printArray(array, SIZE);
+        
+    //Задание номер 4.
+    //    printf("Linerar rec search: %d \n", linearSearchRec(array, 23, 0, SIZE));
+    //    printArray(array, SIZE);
+        
+    //Задание номер 5.
+    //    listSort(array, SIZE);
+    //    printArray(array, SIZE);
+        
+
     return 0;
 }
