@@ -133,11 +133,14 @@ void hanoi(int numbersOfRing, int fromColumn, int toColumn, int tempColumn) {
     }
 }
 
+
+
 int main(int argc, const char * argv[]) {
-    //Задача номер 1
-//    printf("Число 15 в двоичной системе равно ");
-//    from_two_to_ten(15);
-//    printf("\n");
+//    Задача номер 1
+    char binary[64] = "b_";
+    from_two_to_ten(15, binary);
+    printf("Число 15 в двоичной системе равно %s", binary);
+    printf("\n");
     
     //Задача номер 2
 //    printf("5 в степени 3 равно  - %d\n", powRec(5, 3));

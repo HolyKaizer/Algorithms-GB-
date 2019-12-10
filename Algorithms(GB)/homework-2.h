@@ -13,19 +13,19 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <string.h>
 
 //Задание номер 1.
 //    Реализовать функцию перевода из 10 системы в двоичную используя рекурсию.
-void from_two_to_ten(int n) {
-    if (n == 0) return;
-    
-    if (n % 2 == 1) {
-        from_two_to_ten(n/2);
-        printf("1");
-    } else {
-        from_two_to_ten(n/2);
-        printf("0");
-    }
+void from_two_to_ten(int n, char * bin) {
+    if (n)
+        from_two_to_ten(n / 2, bin);
+    else
+        return;
+
+    strcat(bin, (n % 2) ? "1" : "0");
+    return;
+   
         
 }
 
@@ -33,20 +33,20 @@ void from_two_to_ten(int n) {
 //     Реализовать функцию возведения числа a в степень b:
 //        *рекурсивно, используя свойство чётности степени.
 int powRec(int base, int exp) {
-    if (exp == 1)
-        return base;
-    
-    if (exp % 2 == 0)
-        return powRec(base * base , exp / 2);
+    if (exp)
+        if (exp % 2 )
+            return base * powRec(base, exp - 1);
+        else
+            return powRec(base * base , exp / 2);
     else
-        return base * powRec(base, exp - 1);
+        return 1;
 }
 
 //Задание номер 2.5 и 3 решил на бумаге, приложу в Pull Request-e
 
 //Задание номер 3
 
-void calc(int to, int from, int *count) {
+void calc(int to, int from, int *count) { // From = 20, To = 3;
     
     if (from < to)
         return;
@@ -62,4 +62,14 @@ void calc(int to, int from, int *count) {
         calc(to, from - 1, count);
     }
 }
+
+int calc_fixed(int from, int to) {  // From = 3, To = 20;
+    if(from < to)
+        return calc_fixed(from + 1, to) + calc_fixed(from << 1, to);
+    else if (from == to)
+        return 1;
+    else
+        return 0;
+}
+
 #endif /* homework_2_h */
