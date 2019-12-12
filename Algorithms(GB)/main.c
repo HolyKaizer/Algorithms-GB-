@@ -208,55 +208,114 @@ int binarySearch(int *a, int len, int value) {
     return(a[middle] == value ? middle : -1);
 }
 
+
+/*--------------------------------------Lesson 4----------------------------------------*/
+
+int routes(int x, int y) {
+    if(x == 0 || y == 0)
+        return 1;
+    else
+        return routes(x - 1, y) + routes(x, y - 1);
+}
+
+#define X 8
+#define Y 8
+#define QUEENS 8
+int board[Y][X];
+
+void annul() {
+    int i;
+    int j;
+    for (i = 0; i < Y; i++) {
+        for (j = 0; j < X; j++) {
+            board[i][j] = 0;
+        }
+    }
+}
+
+void printBoard() {
+    int i;
+    int j;
+    for (i = 0; i < Y; i++) {
+        for (j = 0; j < X; j++) {
+            printf("%3d", board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int checkQueen(int x, int y) {
+    int i;
+    int j;
+    for (i = 0; i < Y; i++) {
+        for (j = 0; j < X; j++) {
+            if (board[i][j] != 0) { //Если нашли фигуру
+                if (!(i == x && j == y)) {  //Если нашли не нашу фигуру
+                    // Лежат на одной вертикали
+                    if (i - x == 0 || j - y ==0) return 0;
+
+                    //Лежат на одной диагонали
+                    if (abs(i - x) == abs(j - y)) return 0;
+                }
+            }
+        }
+    }
+    //Если дошли сюда, то все в порядке
+    return 1;
+}
+
+int checkBoard() {
+
+    int i;
+    int j;
+    for (i = 0; i < Y; i++) {
+        for (j = 0; j < X; j++) {
+            if (board[i][j] != 0) {
+                if (checkQueen(i, j) == 0) {
+                    return 0;
+                }
+            }
+        }
+    }
+    return 1;
+}
+
+
+int queens(int n) {
+    
+    if(checkBoard() == 0) return 0;
+    
+    if (n == QUEENS + 1) return 1;
+    
+    int row;
+    int col;
+    
+    for (row = 0; row < Y; row++) {
+        for (col = 0; col < X; col++) {
+            if (board[row][col] == 0) {
+                board[row][col] = n;
+                
+                if (queens(n+1) )
+                    return 1;
+                board[row][col] = 0;
+            }
+        }
+    }
+    return 0;
+}
+
 int main(int argc, const char * argv[]) {
-//    Задача номер 1
-//    char binary[64] = "b_";
-//    from_two_to_ten(15, binary);
-//    printf("Число 15 в двоичной системе равно %s", binary);
-//    printf("\n");
+    int i;
+    int j;
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 10; j++) {
+            printf("%7d", routes(i, j));
+        }
+        printf("\n");
+    }
     
-    //Задача номер 2
-//    printf("5 в степени 3 равно  - %d\n", powRec(5, 3));
-    
-    //Задание номер 3.
-//    int count = 0;
-//    calc(3, 20, &count);
-//    printf("Варианты попадания из 20 в 3 равно - %d\n", count);
-    const int SIZE = 10;
-    int array[SIZE];
-    fillArray(array, SIZE);
-    printArray(array, SIZE);
-    
-    printf("Linear search: %d \n", lenearSearch(array, SIZE, 23));
-    
-    pickSort(array, SIZE);
-    printArray(array, SIZE);
-    
-    printf("Binary search: %d \n", binarySearch(array, SIZE, 12));
-    
-    /*------------------------Домашнеее задание номер 3. К уроку 4-----------------------------*/
-        
-    //Задание номер 1.
-    //    bubbleSortOptimized(array, SIZE);
-    //    printArray(array, SIZE);
-
-    //Задание номер 2.
-    //    printf("Алгоритм упрощенной сортировки отсортировал массив за %d итераций\n", bubbleSortOptimizedCount(array, SIZE));
-    //    printf("Получвшийся массив - ");
-    //    printArray(array, SIZE);
-    
-    //Задание номер 3.
-    //    shakerSort(array, SIZE);
-    //    printArray(array, SIZE);
-        
-    //Задание номер 4.
-    //    printf("Linerar rec search: %d \n", linearSearchRec(array, 23, 0, SIZE));
-    //    printArray(array, SIZE);
-        
-    //Задание номер 5.
-    //    listSort(array, SIZE);
-    //    printArray(array, SIZE);
-        
-
+    annul();
+    queens(1);
+    printBoard();
     return 0;
 }
