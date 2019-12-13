@@ -11,6 +11,7 @@
 #include "homework-1.h"
 #include "homework-2.h"
 #include "homework-3.h"
+#include "homework-4.h"
 
 int GCD(int x, int y) {
     
@@ -211,17 +212,19 @@ int binarySearch(int *a, int len, int value) {
 
 /*--------------------------------------Lesson 4----------------------------------------*/
 
+#define X 8
+#define Y 8
+
+#define QUEENS 8
+
+int board[Y][X];
+
 int routes(int x, int y) {
     if(x == 0 || y == 0)
         return 1;
     else
         return routes(x - 1, y) + routes(x, y - 1);
 }
-
-#define X 8
-#define Y 8
-#define QUEENS 8
-int board[Y][X];
 
 void annul() {
     int i;
@@ -304,18 +307,114 @@ int queens(int n) {
     return 0;
 }
 
-int main(int argc, const char * argv[]) {
+
+/*---------------------ЗАДАНИЕ НОМЕР 3. Домашняя работа 4.----------------------*/
+//    Требуется обойти конем шахматную доску размером NxM,
+//    пройдя через все поля доски по одному разу.
+//    Здесь алгоритм решения такой же, как в задаче о 8 ферзях.
+//    Разница только в проверке положения коня.
+
+
+int checkKnights(int n) {
     int i;
     int j;
+    int prevX = 0;
+    int prevY = 0;
+    n--; // Уменьшаем значение n для того, чтобы глубина просчета была два шага.
+    for (i = 0; i < Y; i++) {
+        for (j = 0; j < X; j++) {
+            if (board[i][j] == n-1) { //Если нашли прошлый ход
+                if (n == 1) return 1;
+                prevX = i;
+                prevY = j;
+            }
+        }
+    }
+    
+    for (i = 0; i < Y; i++) {
+        for (j = 0; j < X; j++) {
+            if (board[i][j] == n) { // Нашли нынешний ход
+                if ((abs(prevY - j) == 2 && abs(prevX - i) == 1) || (abs(prevX - i) == 2 && abs(prevY - j) == 1)) {
+                    return 1;
+                }
+            }
+        }
+    }
+    
+    //Если дошли сюда, то расположение предыдущех двух коней не правильное
+    return 0;
+}
+
+int knight_steps(int n) {
+    
+    if (n > 2)
+        if(checkKnights(n) == 0) return 0;
+    
+    if (n == 65) return 1;
+    
+    int row;
+    int col;
+    
+    for (row = 0; row < Y; row++) {
+        for (col = 0; col < X; col++) {
+            if (board[row][col] == 0) {
+                board[row][col] = n;
+                
+                if (knight_steps(n+1))
+                    return 1;
+                
+                board[row][col] = 0;
+            }
+        }
+    }
+    return 0;
+}
+
+
+
+#define SIZE 10
+int main(int argc, const char * argv[]) {
+    
+    /*---------------------------------Homework 4--------------------------------------------*/
+    
+    //Задание 1.
+    printf("\n Задание номер 1. \n");
+    printf("Для изменения препятсвий, скоректируйте массив obstacles снизу \n");
+    int i;
+    int j;
+    int obstacles[SIZE][SIZE] =
+    {
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  0,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  0,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  0,  1,  1,  1,  1,  1,  1},
+        {  1,  1,  1,  1,  1,  1,  1,  1,  1,  1}
+    };
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 10; j++) {
-            printf("%7d", routes(i, j));
+            printf("%7d", roots_with_obs(i, j, obstacles));
         }
         printf("\n");
     }
     
+    //Задание 2.
+    printf("\n Задание номер 2. \n");
+    printf("Maximum lcs = %d",  matrix_lcs_length("GEEKBRAINS", "GEEKMINDS"));
+    printf("\n\n");
+    
+    //Задание номер 3
+    printf(" Задание номер 3.......Подождите пожалуйста (: \n");
     annul();
-    queens(1);
+    knight_steps(1);
+    printf("\nЗадача замещения конем была разрешена показанным на консоли маршрутом: \n");
     printBoard();
+    printf("\nСпасибо за ожидание!! Задачка решилась!\n");
+    printf("\n\n");
     return 0;
+    
 }
