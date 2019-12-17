@@ -160,7 +160,39 @@ int correct_bracket_seq(char * str) {
 //Задание номер 3.
 //    Создать функцию, копирующую односвязный список
 //     (то есть создающую в памяти копию односвязного списка без удаления первого списка)
+T top(Stack **top) {
+    if((*top))
+        return (*top)->head->data;
+    else
+        return 0;
+}
 
+Stack copy_stack(Stack * st) {
+    Stack tempS;
+    tempS.size = 0;
+    tempS.head = NULL;
+    
+    Node * cur_pos = (Node*) malloc(sizeof(Node));
+    cur_pos = st->head;
+
+    while (cur_pos) {
+        push(&tempS, cur_pos->data);
+        cur_pos = cur_pos->next;
+        tempS.size++;
+    }
+    
+    Stack result;
+    result.size = 0;
+    result.head = NULL;
+    
+    while (tempS.size) {
+        T item = pop(&tempS);
+        tempS.size--;
+        push(&result, item);
+    }
+    
+    return result;
+}
 
 
 //Задание номер 4.
@@ -221,6 +253,7 @@ int main(int argc, const char * argv[]) {
     /*-----------------Домащняя работа 5-------------*/
     
     /*-----Задание номер 1-----*/
+    printf("\nЗадание номер 1:\n");
     from_two_to_ten(60, &s);
     while (s.size > 0) {
         printf("%c", pop(&s));
@@ -229,13 +262,42 @@ int main(int argc, const char * argv[]) {
     pop(&s);
 
     /*-----Задание номер 2-----*/
+    printf("\nЗадание номер 2:\n");
     
     if(correct_bracket_seq("([{asfkjalsf}])"))
         printf("ВЕРНАЯ ПОСЛЕДОВАТЕЛЬНОСТЬ\n");
     else
         printf("НЕ ВЕРНАЯ ПОСЛЕДОВАТЕЛЬНОСТЬ\n");
     
+    /*-----Задание номер 3-----*/
+    printf("\nЗадание номер 3:\n");
+    Stack s1;
+    s1.size = 0;
+    s1.head = NULL;
+    push(&s1, '1');
+    push(&s1, '2');
+    push(&s1, '3');
+    push(&s1, '4');
+    push(&s1, '5');
+    push(&s1, '6');
+    push(&s1, '7');
+    
+    Stack s2 = copy_stack(&s1);
+    
+    printf("Резултат копии - ");
+    while (s2.size > 0) {
+        printf("%c", pop(&s2));
+    }
+    printf("\n");
+    
+    printf("Оригинальный стэк - ");
+       while (s1.size > 0) {
+           printf("%c", pop(&s1));
+       }
+       printf("\n");
+    
     /*---Задание номер 4---*/
+    printf("\nЗадание номер 4:\n");
     Queue q;
     q.size = 0;
     q.head = NULL;
