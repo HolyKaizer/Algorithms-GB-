@@ -211,7 +211,10 @@ typedef struct {
 
 int add(Queue *qu, T value) {
     Node2 * temp = (Node2*) malloc(sizeof(Node2));
-    if (temp == NULL) return 0;
+    if (temp == NULL) {
+        printf("Stack is overflow");
+        return 0;
+    }
     
     temp->data = value;
     temp->next = qu->head;
@@ -231,6 +234,7 @@ int add(Queue *qu, T value) {
 
 T delete(Queue *qu) {
     if (!qu->size) {
+        printf("Stack is empty");
         return -1;
     }
     
@@ -239,10 +243,26 @@ T delete(Queue *qu) {
     T result = temp->data;
     
     qu->tail = qu->tail->prev;
+    
+    if (qu->size > 1)
+        qu->tail->next = NULL;
+    else
+        qu->head = NULL;
+    
     qu->size--;
     free(temp);
     
     return result;
+}
+
+void printQueue(Queue * qu) {
+    Node2 * current = qu->head;
+    int index = qu->size;
+    while (current) {
+        printf("index: %d, value: %c \n", index--, current->data);
+        current = current->next;
+    }
+    printf("------------\n");
 }
 
 int main(int argc, const char * argv[]) {
@@ -309,9 +329,7 @@ int main(int argc, const char * argv[]) {
     add(&q, '4');
     add(&q, '5');
     
-    while (q.size > 0) {
-        printf("%c", delete(&q));
-    }
+    printQueue(&q);
     printf("\n");
     delete(&q);
     
