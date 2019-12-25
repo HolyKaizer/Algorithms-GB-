@@ -11,167 +11,145 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*----------------------------------Домашняя работа номер 7.------------------------------*/
+/*----------------------Домашняя работа номер 7. Исправленная ---------------------------*/
 
-
-#define T int
+#define maxHeight 25
+#define maxWidth 25
+int matrix[maxHeight][maxWidth];
 
 typedef struct GraphNode {
-    T data;
+    int value;
     int index;
-    int used;
-    struct List * childrens;
+    int isChecked;
+    struct GraphNode* qnext;
+    struct GraphNode* qprev;
 } GraphNode;
 
-typedef struct NodeQ{
-    GraphNode * data;
-    struct NodeQ *next;
-    struct NodeQ *prev;
-} NodeQ;
+void readMatrixSize(FILE* f, int* width, int* height) {
+    int lines = 0;
+    int commas = 0;
+    int max = 0;
+    while (!feof(f)) {
+        char c;
+        fscanf(f, "%c", &c);
+        if (c == ',')
+            commas++;
 
-
-typedef struct List{
-    NodeQ * head;
-    NodeQ * tail;
-    int size;
-} List;
-
-
-T pushQueue(List *qu, GraphNode * value) {
-    NodeQ * temp = (NodeQ*) malloc(sizeof(NodeQ));
-    if (temp == NULL) return 0;
-
-    temp->data = value;
-    temp->next = qu->head;
-    temp->prev = NULL;
-
-
-    if (qu->head != NULL) {
-        qu->head->prev = temp;
-     } else {
-         qu->tail = temp;
-     }
-
-     qu->head = temp;
-     qu->size++;
-     return 1;
-}
-
-GraphNode * popQueue(List *qu) {
-    if (!qu->size) {
-        return 0;
+        if (c == '\n') {
+            lines++;
+            if (commas > max)
+                max = commas;
+            commas = 0;
+        }
     }
-
-    NodeQ * temp = qu->tail;
-
-    GraphNode * result = temp->data;
-
-    qu->tail = qu->tail->prev;
-    qu->size--;
-    free(temp);
-
-    return result;
+    *height = lines + 1;
+    *width = max + 1;
 }
- 
 
-//Задание номер 1.
-//    Написать рекурсивную функцию обхода графа в глубину.
+void readMatrix(FILE* f, int size) {
+    int i = 0, j = 0;
+    while(!feof(f)) {
+        char c;
+        fscanf(f, "%d%c", &matrix[i][j], &c);
+        j++;
+        if (c == '\n' || c == '\r') {
+            j = 0;
+            i++;
+        }
+    }
+}
 
+void printMatrix(int size) {
+    int i, j;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++)
+            printf("%d ", matrix[i][j]);
+        printf("\n");
+    }
+}
 
-typedef struct Node {
-    GraphNode * data;
-    struct Node *next;
-} Node ;
-
-typedef struct {
-    Node *head;
+typedef struct Queue {
+    GraphNode* head;
+    GraphNode* tail;
     int size;
-} Stack;
+} Queue;
 
-int push(Stack *st, GraphNode * val) {
-    Node * temp = (Node*) malloc(sizeof(Node));
-    if (temp == NULL) return 0;
+void qPush(Queue* q, int value){
+    GraphNode* tmp = (GraphNode*) malloc(sizeof(GraphNode));
+    if (tmp == NULL){
+        printf("Not enough memory\n");
+        return;
+    }
+    tmp->qnext = q->head;
+    tmp->qprev = NULL;
+    tmp->value = value;
+    tmp->index = q->size;
+    if (q->head == NULL){
+        q->tail = tmp;
+    }
+    else{
+        q->head->qprev = tmp;
+    }
+    q->head = tmp;
+    q->size++;
 
-    temp->data = val;
-    temp->next = st->head;
-
-    st->head = temp;
-    st->size++;
-    return 1;
 }
 
-GraphNode * pop(Stack *st) {
-    Node * temp = st->head;
+int qPop(Queue* q){
+    if (q->size == 0){
+        printf("empty stack\n");
+        return -1;
+    }
+    int value = q->tail->value;
+    GraphNode* tmp = q->tail;
+    q->tail = q->tail->qprev;
+    if (q->size > 1){
+        q->tail->qnext = NULL;
+    }
+    else{
+        q->head = NULL;
+    }
+    q->size--;
+    free(tmp);
 
-    st->head = st->head->next;
-    st->size--;
-
-    GraphNode * result = temp->data;
-    free(temp);
-
-    return result;
+    return value;
 }
 
-
-int depthTravers(GraphNode *start, GraphNode *stop, Stack * st) {
-    
-    push(st, start);
-    start->used = 1;
-    
-    while (st->size != 0) {
-        GraphNode * current = pop(st);
-        
-        if (current->data == stop->data) {
-            return 1;
-        }
-        
-        if (current->used == 0) {
-            depthTravers(current, stop, st);
-        }
+int isChecked[maxWidth] = {0};
+int depthTravers(int start, int goal, int size) {
+    if (start == goal || isChecked[start]) {
+        return 1;
+    } else {
+        isChecked[start] = 1;
+        int j;
+        for (j = 0; j < size; j++)
+            if (matrix[start][j] == 1 && isChecked[j] == 0)
+                return depthTravers(j, goal, size);
     }
     return 0;
 }
 
+Queue q;
+int used[maxWidth] = {0};
+int widthTravers(int start, int goal, int size){
+    qPush(&q, start);
+    int steps = 0;
+    while (q.size > 0) {
+        int value = qPop(&q);
+        if (used[value] == 1) continue;
+        used[value] = 1;
+        steps++;
+        if (value == goal)
+            return steps;
 
+        int i;
+        for (i = 0; i < size; i++){
+            if (matrix[value][i] == 1 && used[i] == 0)
+                qPush(&q, i);
 
-//Задание номер 2.
-//    Написать функцию обхода графа в ширину.
-
-GraphNode * getFromList(List * list, int idx) {
-    NodeQ * current = list->head;
-
-    while (current) {
-        if (list->head->data->index == idx)
-            return list->head->data;
-        current = current->next;
-    }
-    
-    return NULL;
-}
-
-
-
-int widthTravers(GraphNode *start, GraphNode *stop, List * q) {
-    pushQueue(q, start);
-    start->used = 1;
-    
-    int i = 0;
-    while (q->size != 0) {
-        
-        GraphNode * current = popQueue(q);
-        if (current->data == stop->data) {
-            return 1;
-        }
-        
-        while (current->childrens->size != 0) {
-            if (getFromList(current->childrens, i)->used != 1) {
-                pushQueue(q, getFromList(current->childrens, i));
-                getFromList(current->childrens, i)->used = 1;
-            }
         }
     }
-    
-    return 0;
+    return -1;
 }
 
 
